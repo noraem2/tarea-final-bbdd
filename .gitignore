@@ -1,0 +1,17 @@
+# Environment
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+
+# DB Browser for SQLite
+*.sqbpro
+
+# macOS
+.DS_Store
+.superpowers/
