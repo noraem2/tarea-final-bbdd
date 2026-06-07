@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Artista" (
 	"id_artista"	INTEGER NOT NULL,
-	"nombre_artista"	INTEGER NOT NULL UNIQUE,
+	"nombre_artista"	TEXT NOT NULL UNIQUE,
 	"fecha_nacimiento"	TEXT,
 	"edad"	INTEGER,
 	"código_postal"	TEXT,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "Artista_Estilo" (
 	"id_estilo"	INTEGER NOT NULL,
 	PRIMARY KEY("id_artista","id_estilo"),
 	CONSTRAINT "fk_artista_estilo_artista" FOREIGN KEY("id_artista") REFERENCES "Artista"("id_artista"),
-	CONSTRAINT "fk_astista_estilo_estilo" FOREIGN KEY("id_estilo") REFERENCES ""
+	CONSTRAINT "fk_artista_estilo_estilo" FOREIGN KEY("id_estilo") REFERENCES "Estilo"("id_estilo")
 );
 CREATE TABLE IF NOT EXISTS "Cliente" (
 	"dni"	TEXT NOT NULL,
@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS "Cliente" (
 	"calle"	TEXT,
 	"numero"	INTEGER,
 	"código_postal"	TEXT,
-	"dinero_total_gastado"	TEXT,
 	PRIMARY KEY("dni")
 );
 CREATE TABLE IF NOT EXISTS "Cliente_Tema" (
@@ -30,13 +29,13 @@ CREATE TABLE IF NOT EXISTS "Cliente_Tema" (
 	"id_tema"	INTEGER NOT NULL,
 	PRIMARY KEY("dni","id_tema"),
 	CONSTRAINT "cliente_tema_cliente" FOREIGN KEY("dni") REFERENCES "Cliente"("dni"),
-	CONSTRAINT "cliente_tema_tema" FOREIGN KEY("id_tema") REFERENCES ""
+	CONSTRAINT "cliente_tema_tema" FOREIGN KEY("id_tema") REFERENCES "Tema"("id_tema")
 );
 CREATE TABLE IF NOT EXISTS "Cliente_artista" (
 	"dni_cliente"	TEXT NOT NULL,
 	"id_artista"	INTEGER NOT NULL,
 	PRIMARY KEY("dni_cliente","id_artista"),
-	CONSTRAINT "cliente_artista_cliente" FOREIGN KEY("dni_cliente") REFERENCES "",
+	CONSTRAINT "cliente_artista_cliente" FOREIGN KEY("dni_cliente") REFERENCES "Cliente"("dni"),
 	CONSTRAINT "cliente_artista_artista" FOREIGN KEY("id_artista") REFERENCES "Artista"("id_artista")
 );
 CREATE TABLE IF NOT EXISTS "Compra" (
@@ -47,11 +46,11 @@ CREATE TABLE IF NOT EXISTS "Compra" (
 	"precio"	REAL,
 	PRIMARY KEY("id_compra"),
 	CONSTRAINT "fk_compra_cliente" FOREIGN KEY("dni") REFERENCES "Cliente"("dni"),
-	CONSTRAINT "fk_compra_obra" FOREIGN KEY("id_obra") REFERENCES ""
+	CONSTRAINT "fk_compra_obra" FOREIGN KEY("id_obra") REFERENCES "Obra"("id_obra")
 );
 CREATE TABLE IF NOT EXISTS "Estilo" (
 	"id_estilo"	INTEGER NOT NULL,
-	"nombre_estilo"	TEXT NOT NULL,
+	"nombre_estilo"	TEXT NOT NULL UNIQUE,
 	PRIMARY KEY("id_estilo" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "Obra" (
@@ -61,14 +60,14 @@ CREATE TABLE IF NOT EXISTS "Obra" (
 	"precio"	REAL,
 	"id_artista"	INTEGER NOT NULL,
 	PRIMARY KEY("id_obra" AUTOINCREMENT),
-	CONSTRAINT "obra_artística" FOREIGN KEY("id_artista") REFERENCES ""
+	CONSTRAINT "obra_artística" FOREIGN KEY("id_artista") REFERENCES "Artista"("id_artista")
 );
 CREATE TABLE IF NOT EXISTS "Obra_Tema" (
 	"id_obra"	INTEGER NOT NULL,
 	"id_tema"	INTEGER NOT NULL,
 	PRIMARY KEY("id_obra","id_tema"),
 	CONSTRAINT "obra_tema_obra" FOREIGN KEY("id_obra") REFERENCES "Obra"("id_obra"),
-	CONSTRAINT "obra_tema_tema" FOREIGN KEY("id_tema") REFERENCES ""
+	CONSTRAINT "obra_tema_tema" FOREIGN KEY("id_tema") REFERENCES "Tema"("id_tema")
 );
 CREATE TABLE IF NOT EXISTS "Tema" (
 	"id_tema"	INTEGER NOT NULL,
@@ -76,9 +75,21 @@ CREATE TABLE IF NOT EXISTS "Tema" (
 	"descripción"	TEXT,
 	PRIMARY KEY("id_tema" AUTOINCREMENT)
 );
-# Tabla Artista:
+-- Tabla Artista:
+INSERT INTO "Artista" VALUES (1,'Artista Anónimo 1','1970-01-01',56,'28001','Madrid');
+INSERT INTO "Artista" VALUES (2,'Artista Anónimo 2','1975-01-01',51,'28001','Madrid');
+INSERT INTO "Artista" VALUES (3,'Artista Anónimo 3','1980-01-01',46,'28001','Madrid');
 INSERT INTO "Artista" VALUES (4,'Artista Anónimo 4','1970-01-01',56,'28001','Madrid');
-INSERT INTO "Artista" VALUES (5,'Carmen Sainz','1870',40,'27989','Barcelona');
+INSERT INTO "Artista" VALUES (5,'Carmen Sainz','1870-01-01',40,'27989','Barcelona');
+INSERT INTO "Artista" VALUES (6,'Artista Anónimo 6','1983-01-01',43,'28001','Madrid');
+INSERT INTO "Artista" VALUES (7,'Artista Anónimo 7','1985-01-01',41,'28001','Madrid');
+INSERT INTO "Artista" VALUES (8,'Artista Anónimo 8','1979-01-01',47,'28001','Madrid');
+INSERT INTO "Artista" VALUES (9,'Artista Anónimo 9','1991-01-01',35,'28001','Madrid');
+INSERT INTO "Artista" VALUES (10,'Artista Anónimo 10','1987-01-01',39,'28001','Madrid');
+INSERT INTO "Artista" VALUES (11,'Artista Anónimo 11','1993-01-01',33,'28001','Madrid');
+INSERT INTO "Artista" VALUES (12,'Artista Anónimo 12','1976-01-01',50,'28001','Madrid');
+INSERT INTO "Artista" VALUES (13,'Artista Anónimo 13','1982-01-01',44,'28001','Madrid');
+INSERT INTO "Artista" VALUES (14,'Artista Anónimo 14','1988-01-01',38,'28001','Madrid');
 INSERT INTO "Artista" VALUES (15,'Aurora Vega','1985-03-12',41,'28012','Valencia');
 INSERT INTO "Artista" VALUES (16,'Marco Llorens','1978-11-02',47,'08003','Madrid');
 INSERT INTO "Artista" VALUES (17,'Selene Duarte','1990-07-25',35,'41001','Barcelona');
@@ -104,54 +115,54 @@ INSERT INTO "Artista" VALUES (36,'Rocío Benítez','1990-02-09',36,'18014','Zara
 INSERT INTO "Artista" VALUES (37,'Tomás Aguilera','1985-07-23',41,'26007','Valladolidad');
 INSERT INTO "Artista" VALUES (38,'Ariadna Fuentes','1998-10-05',27,'32004','Sevilla');
 INSERT INTO "Artista" VALUES (39,'Samuel Requena','1976-03-29',50,'52001','Alicante');
-#Tabla Ariista_Estilo:
+-- Tabla Artista_Estilo:
 INSERT INTO "Artista_Estilo" VALUES (15,4);
 INSERT INTO "Artista_Estilo" VALUES (15,5);
-INSERT INTO "Artista_Estilo" VALUES (16,7);
-INSERT INTO "Artista_Estilo" VALUES (16,8);
-INSERT INTO "Artista_Estilo" VALUES (17,10);
-INSERT INTO "Artista_Estilo" VALUES (17,11);
-INSERT INTO "Artista_Estilo" VALUES (18,13);
-INSERT INTO "Artista_Estilo" VALUES (18,14);
-INSERT INTO "Artista_Estilo" VALUES (19,16);
-INSERT INTO "Artista_Estilo" VALUES (19,17);
+INSERT INTO "Artista_Estilo" VALUES (16,4);
+INSERT INTO "Artista_Estilo" VALUES (16,5);
+INSERT INTO "Artista_Estilo" VALUES (17,4);
+INSERT INTO "Artista_Estilo" VALUES (17,5);
+INSERT INTO "Artista_Estilo" VALUES (18,4);
+INSERT INTO "Artista_Estilo" VALUES (18,5);
+INSERT INTO "Artista_Estilo" VALUES (19,4);
+INSERT INTO "Artista_Estilo" VALUES (19,5);
 INSERT INTO "Artista_Estilo" VALUES (20,6);
-INSERT INTO "Artista_Estilo" VALUES (21,9);
-INSERT INTO "Artista_Estilo" VALUES (22,12);
-INSERT INTO "Artista_Estilo" VALUES (23,15);
-INSERT INTO "Artista_Estilo" VALUES (24,18);
-INSERT INTO "Artista_Estilo" VALUES (25,19);
-INSERT INTO "Artista_Estilo" VALUES (26,20);
-INSERT INTO "Artista_Estilo" VALUES (27,21);
-INSERT INTO "Artista_Estilo" VALUES (28,22);
-INSERT INTO "Artista_Estilo" VALUES (29,23);
+INSERT INTO "Artista_Estilo" VALUES (21,6);
+INSERT INTO "Artista_Estilo" VALUES (22,6);
+INSERT INTO "Artista_Estilo" VALUES (23,6);
+INSERT INTO "Artista_Estilo" VALUES (24,6);
+INSERT INTO "Artista_Estilo" VALUES (25,4);
+INSERT INTO "Artista_Estilo" VALUES (26,5);
+INSERT INTO "Artista_Estilo" VALUES (27,6);
+INSERT INTO "Artista_Estilo" VALUES (28,4);
+INSERT INTO "Artista_Estilo" VALUES (29,5);
 INSERT INTO "Artista_Estilo" VALUES (30,6);
-INSERT INTO "Artista_Estilo" VALUES (31,9);
-INSERT INTO "Artista_Estilo" VALUES (32,12);
-INSERT INTO "Artista_Estilo" VALUES (33,15);
-INSERT INTO "Artista_Estilo" VALUES (34,18);
-#Tabla Cliente::
-INSERT INTO "Cliente" VALUES ('11111111A','Nuria Salas','Madrid','Calle Prado',10,'28014','1200');
-INSERT INTO "Cliente" VALUES ('22222222B','Jorge Medina','Barcelona','Calle Aragón',55,'08009','1800');
-INSERT INTO "Cliente" VALUES ('33333333C','Raquel Torres','Sevilla','Calle Feria',8,'41003','950');
-INSERT INTO "Cliente" VALUES ('44444444D','Hugo Navarro','Valencia','Calle Ruzafa',21,'46004','2100');
-INSERT INTO "Cliente" VALUES ('55555555E','Claudia Ramos','Bilbao','Calle Autonomía',3,'48010','3000');
-INSERT INTO "Cliente" VALUES ('66666666F','Pablo Serrano','Zaragoza','Calle Alfonso',14,'50003','1300');
-INSERT INTO "Cliente" VALUES ('77777777G','Irene Márquez','Málaga','Calle Larios',7,'29005','1700');
-INSERT INTO "Cliente" VALUES ('88888888H','Víctor Pino','Murcia','Calle Trapería',19,'30001','2500');
-INSERT INTO "Cliente" VALUES ('99999999I','Elisa Duarte','Alicante','Calle San Vicente',5,'03004','900');
-INSERT INTO "Cliente" VALUES ('12121212J','Mario Lozano','Valladolid','Calle Santiago',9,'47001','2200');
-INSERT INTO "Cliente" VALUES ('23232323K','Patricia Vela','Madrid','Calle Arenal',18,'28013','3100');
-INSERT INTO "Cliente" VALUES ('34343434L','Diego Castaño','Sevilla','Calle Sierpes',20,'41004','1400');
-INSERT INTO "Cliente" VALUES ('45454545M','Lucía Benítez','Valencia','Calle Colón',33,'46004','1600');
-INSERT INTO "Cliente" VALUES ('56565656N','Óscar Rivas','Bilbao','Calle Hurtado',2,'48011','3500');
-INSERT INTO "Cliente" VALUES ('67676767O','Nerea Soler','Zaragoza','Calle Don Jaime',11,'50001','1100');
-INSERT INTO "Cliente" VALUES ('78787878P','Iván Llorente','Málaga','Calle Granada',4,'29015','1900');
-INSERT INTO "Cliente" VALUES ('89898989Q','Clara Montoro','Murcia','Calle Jabonerías',16,'30004','2600');
-INSERT INTO "Cliente" VALUES ('90909090R','Tomás Requena','Alicante','Calle Mayor',12,'03002','2800');
-INSERT INTO "Cliente" VALUES ('31313131S','Alicia Pardo','Valladolid','Calle López Gómez',6,'47002','3200');
-INSERT INTO "Cliente" VALUES ('41414141T','Samuel Aguilar','Madrid','Calle Toledo',25,'28005','1500');
-#Tabla Cliente_Tema:
+INSERT INTO "Artista_Estilo" VALUES (31,6);
+INSERT INTO "Artista_Estilo" VALUES (32,6);
+INSERT INTO "Artista_Estilo" VALUES (33,6);
+INSERT INTO "Artista_Estilo" VALUES (34,6);
+-- Tabla Cliente:
+INSERT INTO "Cliente" VALUES ('11111111A','Nuria Salas','Madrid','Calle Prado',10,'28014');
+INSERT INTO "Cliente" VALUES ('22222222B','Jorge Medina','Barcelona','Calle Aragón',55,'08009');
+INSERT INTO "Cliente" VALUES ('33333333C','Raquel Torres','Sevilla','Calle Feria',8,'41003');
+INSERT INTO "Cliente" VALUES ('44444444D','Hugo Navarro','Valencia','Calle Ruzafa',21,'46004');
+INSERT INTO "Cliente" VALUES ('55555555E','Claudia Ramos','Bilbao','Calle Autonomía',3,'48010');
+INSERT INTO "Cliente" VALUES ('66666666F','Pablo Serrano','Zaragoza','Calle Alfonso',14,'50003');
+INSERT INTO "Cliente" VALUES ('77777777G','Irene Márquez','Málaga','Calle Larios',7,'29005');
+INSERT INTO "Cliente" VALUES ('88888888H','Víctor Pino','Murcia','Calle Trapería',19,'30001');
+INSERT INTO "Cliente" VALUES ('99999999I','Elisa Duarte','Alicante','Calle San Vicente',5,'03004');
+INSERT INTO "Cliente" VALUES ('12121212J','Mario Lozano','Valladolid','Calle Santiago',9,'47001');
+INSERT INTO "Cliente" VALUES ('23232323K','Patricia Vela','Madrid','Calle Arenal',18,'28013');
+INSERT INTO "Cliente" VALUES ('34343434L','Diego Castaño','Sevilla','Calle Sierpes',20,'41004');
+INSERT INTO "Cliente" VALUES ('45454545M','Lucía Benítez','Valencia','Calle Colón',33,'46004');
+INSERT INTO "Cliente" VALUES ('56565656N','Óscar Rivas','Bilbao','Calle Hurtado',2,'48011');
+INSERT INTO "Cliente" VALUES ('67676767O','Nerea Soler','Zaragoza','Calle Don Jaime',11,'50001');
+INSERT INTO "Cliente" VALUES ('78787878P','Iván Llorente','Málaga','Calle Granada',4,'29015');
+INSERT INTO "Cliente" VALUES ('89898989Q','Clara Montoro','Murcia','Calle Jabonerías',16,'30004');
+INSERT INTO "Cliente" VALUES ('90909090R','Tomás Requena','Alicante','Calle Mayor',12,'03002');
+INSERT INTO "Cliente" VALUES ('31313131S','Alicia Pardo','Valladolid','Calle López Gómez',6,'47002');
+INSERT INTO "Cliente" VALUES ('41414141T','Samuel Aguilar','Madrid','Calle Toledo',25,'28005');
+-- Tabla Cliente_Tema:
 INSERT INTO "Cliente_Tema" VALUES ('11111111A',4);
 INSERT INTO "Cliente_Tema" VALUES ('22222222B',7);
 INSERT INTO "Cliente_Tema" VALUES ('33333333C',12);
@@ -172,8 +183,7 @@ INSERT INTO "Cliente_Tema" VALUES ('89898989Q',17);
 INSERT INTO "Cliente_Tema" VALUES ('90909090R',13);
 INSERT INTO "Cliente_Tema" VALUES ('31313131S',19);
 INSERT INTO "Cliente_Tema" VALUES ('41414141T',16);
-#Tabla Cliente_artista::
-
+-- Tabla Cliente_artista:
 INSERT INTO "Cliente_artista" VALUES ('11111111A',3);
 INSERT INTO "Cliente_artista" VALUES ('22222222B',7);
 INSERT INTO "Cliente_artista" VALUES ('33333333C',12);
@@ -194,7 +204,7 @@ INSERT INTO "Cliente_artista" VALUES ('89898989Q',17);
 INSERT INTO "Cliente_artista" VALUES ('90909090R',13);
 INSERT INTO "Cliente_artista" VALUES ('31313131S',19);
 INSERT INTO "Cliente_artista" VALUES ('41414141T',16);
-#Tabla Compra:
+-- Tabla Compra:
 INSERT INTO "Compra" VALUES (1,'11111111A',1,'2024-01-05',1200.0);
 INSERT INTO "Compra" VALUES (2,'22222222B',2,'2024-01-12',1800.0);
 INSERT INTO "Compra" VALUES (3,'33333333C',3,'2024-01-20',950.0);
@@ -215,28 +225,11 @@ INSERT INTO "Compra" VALUES (17,'89898989Q',17,'2024-06-09',2600.0);
 INSERT INTO "Compra" VALUES (18,'90909090R',18,'2024-06-17',2800.0);
 INSERT INTO "Compra" VALUES (19,'31313131S',19,'2024-06-25',3200.0);
 INSERT INTO "Compra" VALUES (20,'41414141T',20,'2024-07-02',1500.0);
-#Tabla Estilo:
+-- Tabla Estilo:
 INSERT INTO "Estilo" VALUES (4,'pintura');
 INSERT INTO "Estilo" VALUES (5,'escultura');
 INSERT INTO "Estilo" VALUES (6,'fotografia');
-INSERT INTO "Estilo" VALUES (7,'pintura');
-INSERT INTO "Estilo" VALUES (8,'escultura');
-INSERT INTO "Estilo" VALUES (9,'fotografia');
-INSERT INTO "Estilo" VALUES (10,'pintura');
-INSERT INTO "Estilo" VALUES (11,'escultura');
-INSERT INTO "Estilo" VALUES (12,'fotografia');
-INSERT INTO "Estilo" VALUES (13,'pintura');
-INSERT INTO "Estilo" VALUES (14,'escultura');
-INSERT INTO "Estilo" VALUES (15,'fotografia');
-INSERT INTO "Estilo" VALUES (16,'pintura');
-INSERT INTO "Estilo" VALUES (17,'escultura');
-INSERT INTO "Estilo" VALUES (18,'fotografia');
-INSERT INTO "Estilo" VALUES (19,'pintura');
-INSERT INTO "Estilo" VALUES (20,'escultura');
-INSERT INTO "Estilo" VALUES (21,'fotografia');
-INSERT INTO "Estilo" VALUES (22,'pintura');
-INSERT INTO "Estilo" VALUES (23,'escultura');
-#Tabla Obra:
+-- Tabla Obra:
 INSERT INTO "Obra" VALUES (1,'Caminos de Luz',2011,1200.0,1);
 INSERT INTO "Obra" VALUES (2,'Sombras del Tiempo',2014,1800.0,2);
 INSERT INTO "Obra" VALUES (3,'Ecos del Horizonte',2019,950.0,3);
@@ -257,7 +250,7 @@ INSERT INTO "Obra" VALUES (17,'Movimiento Infinito',2017,2600.0,17);
 INSERT INTO "Obra" VALUES (18,'Reflejos del Pasado',2019,2800.0,18);
 INSERT INTO "Obra" VALUES (19,'Destino Trazado',2020,3200.0,19);
 INSERT INTO "Obra" VALUES (20,'Nostalgia de Otoño',2012,1500.0,20);
-#Tabla Obra_Tema:
+-- Tabla Obra_Tema:
 INSERT INTO "Obra_Tema" VALUES (1,3);
 INSERT INTO "Obra_Tema" VALUES (2,7);
 INSERT INTO "Obra_Tema" VALUES (3,18);
@@ -278,7 +271,7 @@ INSERT INTO "Obra_Tema" VALUES (17,13);
 INSERT INTO "Obra_Tema" VALUES (18,15);
 INSERT INTO "Obra_Tema" VALUES (19,9);
 INSERT INTO "Obra_Tema" VALUES (20,16);
-#Tabla Tema:
+-- Tabla Tema:
 INSERT INTO "Tema" VALUES (1,'Naturaleza','Obras inspiradas en paisajes, plantas y elementos naturales');
 INSERT INTO "Tema" VALUES (2,'Retrato','Representación de personas, rostros y expresiones');
 INSERT INTO "Tema" VALUES (3,'Abstracto','Formas no figurativas y composiciones libres');
