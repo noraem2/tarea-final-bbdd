@@ -1,25 +1,19 @@
-import os
+import sqlite3
 
-import mysql.connector
-from dotenv import load_dotenv
 from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-load_dotenv()
-
 console = Console()
+
+DB_PATH = "galeria_arte.db"
 
 
 def conectar():
-    return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", 3306)),
-        user=os.getenv("DB_USER", "root"),
-        password=os.environ["DB_PASSWORD"],
-        database=os.getenv("DB_NAME", "galeria_arte"),
-    )
+    con = sqlite3.connect(DB_PATH)
+    con.execute("PRAGMA foreign_keys = ON")
+    return con
 
 
 def insertar_cliente():
@@ -35,14 +29,10 @@ def insertar_cliente():
     numero = input("Número: ")
     codigo_postal = input("Código postal: ")
 
-    dinero_total_gastado = float(
-        input("Dinero total gastado en la galería: ")
-    )
-
     sql = """
-        INSERT INTO cliente 
-        (dni, nombre, localidad, calle, numero, codigo_postal, dinero_total_gastado)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO cliente
+        (dni, nombre, localidad, calle, numero, codigo_postal)
+        VALUES (?, ?, ?, ?, ?, ?)
     """
 
     valores = (
@@ -52,14 +42,13 @@ def insertar_cliente():
         calle,
         numero,
         codigo_postal,
-        dinero_total_gastado
     )
 
     try:
         cursor.execute(sql, valores)
         conexion.commit()
         console.print("[bold green]Cliente insertado correctamente.[/bold green]")
-    except mysql.connector.Error as error:
+    except sqlite3.Error as error:
         console.print(f"[bold red]Error al insertar cliente:[/bold red] {error}")
     finally:
         cursor.close()
@@ -90,7 +79,7 @@ def ejecutar_consulta(titulo, consulta):
 
             console.print(tabla)
 
-    except mysql.connector.Error as error:
+    except sqlite3.Error as error:
         console.print(f"[bold red]Error:[/bold red] {error}")
     finally:
         cursor.close()
@@ -99,45 +88,39 @@ def ejecutar_consulta(titulo, consulta):
 
 def consulta_a():
     sql = """
-        SELECT 
+        SELECT
             tema.nombre AS tema,
-            SUM(cliente.dinero_total_gastado) AS total_gastado_por_clientes_interesados
+            SUM(compra.precio) AS total_gastado_por_clientes_interesados
         FROM tema
-        JOIN cliente_tema cliente_tema ON tema.id_tema = cliente_tema.id_tema
-        JOIN cliente ON cliente_tema.dni = cliente.dni
+        JOIN cliente_tema ON tema.id_tema = cliente_tema.id_tema
+        JOIN compra ON cliente_tema.dni = compra.dni
         GROUP BY tema.id_tema, tema.nombre
         ORDER BY total_gastado_por_clientes_interesados DESC
         LIMIT 1;
     """
 
-    ejecutar_consulta(
-        "a) Tema potencialmente más rentable",
-        sql
-    )
+    ejecutar_consulta("a) Tema potencialmente más rentable", sql)
 
 
 def consulta_b():
     sql = """
-SELECT 
+SELECT
     Artista.nombre_artista
 FROM Artista
 JOIN Artista_Estilo ON Artista.id_artista = Artista_Estilo.id_artista
 JOIN Estilo ON Artista_Estilo.id_estilo = Estilo.id_estilo
 GROUP BY Artista.id_artista, Artista.nombre_artista
-HAVING 
+HAVING
     COUNT(DISTINCT Estilo.nombre_estilo) = 2
     AND SUM(CASE WHEN Estilo.nombre_estilo IN ('pintura', 'escultura') THEN 1 ELSE 0 END) = 2;
     """
 
-    ejecutar_consulta(
-        "b) Artistas que hagan únicamente pintura y escultura",
-        sql
-    )
+    ejecutar_consulta("b) Artistas que hagan únicamente pintura y escultura", sql)
 
 
 def consulta_c():
     sql = """
-        SELECT 
+        SELECT
             artista.nombre_artista,
             SUM(obra.precio) AS valor_total_obras
         FROM artista artista
@@ -147,16 +130,13 @@ def consulta_c():
         LIMIT 1;
     """
 
-    ejecutar_consulta(
-        "c) Artista con mayor valor",
-        sql
-    )
+    ejecutar_consulta("c) Artista con mayor valor", sql)
 
 
 def consulta_d():
     sql = """
-        SELECT 
-    Obra."título",
+        SELECT
+    Obra.`título`,
     Obra.anio_creacion,
     Obra.precio,
     Artista.nombre_artista,
@@ -165,16 +145,13 @@ FROM Obra
 JOIN Artista ON Obra.id_artista = Artista.id_artista
 JOIN Obra_Tema ON Obra.id_obra = Obra_Tema.id_obra
 JOIN Tema ON Obra_Tema.id_tema = Tema.id_tema
-WHERE 
+WHERE
     Obra.anio_creacion < 2000
     AND Tema.nombre = 'Retrato';
 
     """
 
-    ejecutar_consulta(
-        "d) Obras anteriores al año 2000 y del tema retratos",
-        sql
-    )
+    ejecutar_consulta("d) Obras anteriores al año 2000 y del tema retratos", sql)
 
 
 def consulta_e():
@@ -190,18 +167,19 @@ def consulta_e():
             FROM cliente_artista cliente_artista
             WHERE cliente_artista.dni_cliente = cliente.dni
               AND cliente_artista.id_artista = artista.id_artista
-);
+        )
+;
     """
 
     ejecutar_consulta(
         "e) Clientes que viven en la misma localidad que artistas que no les gustan",
-        sql
+        sql,
     )
 
 
 def consulta_f():
     sql = """
-       SELECT 
+       SELECT
             tema.nombre AS tema,
             COUNT(obra.id_obra) AS numero_obras
         FROM tema
@@ -211,10 +189,7 @@ def consulta_f():
         HAVING COUNT(obra.id_obra) > 1;
     """
 
-    ejecutar_consulta(
-        "f) Temas con más de una obra asociada",
-        sql
-    )
+    ejecutar_consulta("f) Temas con más de una obra asociada", sql)
 
 
 def mostrar_menu():
