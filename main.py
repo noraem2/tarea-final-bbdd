@@ -100,12 +100,12 @@ def ejecutar_consulta(titulo, consulta):
 def consulta_a():
     sql = """
         SELECT 
-            t.nombre AS tema,
-            SUM(c.dinero_total_gastado) AS total_gastado_por_clientes_interesados
-        FROM tema t
-        JOIN cliente_tema ct ON t.id_tema = ct.id_tema
-        JOIN cliente c ON ct.dni_cliente = c.dni
-        GROUP BY t.id_tema, t.nombre
+            tema.nombre AS tema,
+            SUM(cliente.dinero_total_gastado) AS total_gastado_por_clientes_interesados
+        FROM tema
+        JOIN cliente_tema cliente_tema ON tema.id_tema = cliente_tema.id_tema
+        JOIN cliente ON cliente_tema.dni = cliente.dni
+        GROUP BY tema.id_tema, tema.nombre
         ORDER BY total_gastado_por_clientes_interesados DESC
         LIMIT 1;
     """
@@ -118,15 +118,15 @@ def consulta_a():
 
 def consulta_b():
     sql = """
-        SELECT 
-            a.nombre_artistico
-        FROM artista a
-        JOIN artista_estilo ae ON a.id_artista = ae.id_artista
-        JOIN estilo e ON ae.id_estilo = e.id_estilo
-        GROUP BY a.id_artista, a.nombre_artistico
-        HAVING 
-            COUNT(DISTINCT e.nombre) = 2
-            AND SUM(CASE WHEN e.nombre IN ('pintura', 'escultura') THEN 1 ELSE 0 END) = 2;
+SELECT 
+    Artista.nombre_artista
+FROM Artista
+JOIN Artista_Estilo ON Artista.id_artista = Artista_Estilo.id_artista
+JOIN Estilo ON Artista_Estilo.id_estilo = Estilo.id_estilo
+GROUP BY Artista.id_artista, Artista.nombre_artista
+HAVING 
+    COUNT(DISTINCT Estilo.nombre_estilo) = 2
+    AND SUM(CASE WHEN Estilo.nombre_estilo IN ('pintura', 'escultura') THEN 1 ELSE 0 END) = 2;
     """
 
     ejecutar_consulta(
@@ -138,11 +138,11 @@ def consulta_b():
 def consulta_c():
     sql = """
         SELECT 
-            a.nombre_artistico,
-            SUM(o.precio) AS valor_total_obras
-        FROM artista a
-        JOIN obra o ON a.id_artista = o.id_artista
-        GROUP BY a.id_artista, a.nombre_artistico
+            artista.nombre_artista,
+            SUM(obra.precio) AS valor_total_obras
+        FROM artista artista
+        JOIN obra obra ON artista.id_artista = obra.id_artista
+        GROUP BY artista.id_artista, artista.nombre_artista
         ORDER BY valor_total_obras DESC
         LIMIT 1;
     """
@@ -156,18 +156,19 @@ def consulta_c():
 def consulta_d():
     sql = """
         SELECT 
-            o.titulo,
-            o.anio_creacion,
-            o.precio,
-            a.nombre_artistico,
-            t.nombre AS tema
-        FROM obra o
-        JOIN artista a ON o.id_artista = a.id_artista
-        JOIN obra_tema ot ON o.id_obra = ot.id_obra
-        JOIN tema t ON ot.id_tema = t.id_tema
-        WHERE 
-            o.anio_creacion < 2000
-            AND t.nombre = 'retratos';
+    Obra."título",
+    Obra.anio_creacion,
+    Obra.precio,
+    Artista.nombre_artista,
+    Tema.nombre AS tema
+FROM Obra
+JOIN Artista ON Obra.id_artista = Artista.id_artista
+JOIN Obra_Tema ON Obra.id_obra = Obra_Tema.id_obra
+JOIN Tema ON Obra_Tema.id_tema = Tema.id_tema
+WHERE 
+    Obra.anio_creacion < 2000
+    AND Tema.nombre = 'Retrato';
+
     """
 
     ejecutar_consulta(
@@ -178,18 +179,18 @@ def consulta_d():
 
 def consulta_e():
     sql = """
-        SELECT DISTINCT
-            c.nombre AS cliente,
-            c.localidad,
-            a.nombre_artistico AS artista_no_gustado
-        FROM cliente c
-        JOIN artista a ON c.localidad = a.localidad_residencia
+       SELECT DISTINCT
+            cliente.nombre AS cliente,
+            cliente.localidad,
+            artista.nombre_artista AS artista_no_gustado
+        FROM cliente
+        JOIN artista ON cliente.localidad = artista.localidad
         WHERE NOT EXISTS (
             SELECT 1
-            FROM cliente_artista ca
-            WHERE ca.dni_cliente = c.dni
-              AND ca.id_artista = a.id_artista
-        );
+            FROM cliente_artista cliente_artista
+            WHERE cliente_artista.dni_cliente = cliente.dni
+              AND cliente_artista.id_artista = artista.id_artista
+);
     """
 
     ejecutar_consulta(
@@ -200,14 +201,14 @@ def consulta_e():
 
 def consulta_f():
     sql = """
-        SELECT 
-            t.nombre AS tema,
-            COUNT(o.id_obra) AS numero_obras
-        FROM tema t
-        JOIN obra_tema ot ON t.id_tema = ot.id_tema
-        JOIN obra o ON ot.id_obra = o.id_obra
-        GROUP BY t.id_tema, t.nombre
-        HAVING COUNT(o.id_obra) > 1;
+       SELECT 
+            tema.nombre AS tema,
+            COUNT(obra.id_obra) AS numero_obras
+        FROM tema
+        JOIN obra_tema obra_tema ON tema.id_tema = obra_tema.id_tema
+        JOIN obra ON obra_tema.id_obra = obra.id_obra
+        GROUP BY tema.id_tema, tema.nombre
+        HAVING COUNT(obra.id_obra) > 1;
     """
 
     ejecutar_consulta(

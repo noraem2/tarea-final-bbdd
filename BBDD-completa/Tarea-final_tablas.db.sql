@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS "Artista" (
 	"fecha_nacimiento"	TEXT,
 	"edad"	INTEGER,
 	"código_postal"	TEXT,
+	"localidad"	TEXT,
 	PRIMARY KEY("id_artista" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "Artista_Estilo" (
@@ -76,33 +77,33 @@ CREATE TABLE IF NOT EXISTS "Tema" (
 	PRIMARY KEY("id_tema" AUTOINCREMENT)
 );
 # Tabla Artista:
-INSERT INTO "Artista" VALUES (4,'Artista Anónimo 4','1970-01-01',56,'28001');
-INSERT INTO "Artista" VALUES (5,'Carmen Sainz','1870',40,'27989');
-INSERT INTO "Artista" VALUES (15,'Aurora Vega','1985-03-12',41,'28012');
-INSERT INTO "Artista" VALUES (16,'Marco Llorens','1978-11-02',47,'08003');
-INSERT INTO "Artista" VALUES (17,'Selene Duarte','1990-07-25',35,'41001');
-INSERT INTO "Artista" VALUES (18,'Dante Ferrer','1982-01-18',44,'46002');
-INSERT INTO "Artista" VALUES (19,'Iris Calderón','1995-09-30',30,'29015');
-INSERT INTO "Artista" VALUES (20,'Luna Serrano','1988-04-10',38,'28005');
-INSERT INTO "Artista" VALUES (21,'Héctor Marín','1975-09-14',50,'08012');
-INSERT INTO "Artista" VALUES (22,'Valeria Montes','1992-12-01',33,'41003');
-INSERT INTO "Artista" VALUES (23,'Nicolás Prado','1980-06-22',45,'46021');
-INSERT INTO "Artista" VALUES (24,'Elena Rivas','1997-02-17',29,'29002');
-INSERT INTO "Artista" VALUES (25,'Bruno Castaño','1984-08-09',41,'50001');
-INSERT INTO "Artista" VALUES (26,'Clara Belmonte','1991-11-30',34,'03004');
-INSERT INTO "Artista" VALUES (27,'Adrián Soler','1986-03-05',40,'15003');
-INSERT INTO "Artista" VALUES (28,'Marta Ledesma','1993-07-19',32,'20011');
-INSERT INTO "Artista" VALUES (29,'Iván Correa','1979-10-28',46,'33002');
-INSERT INTO "Artista" VALUES (30,'Paula Santamaría','1987-05-13',39,'07004');
-INSERT INTO "Artista" VALUES (31,'Diego Armenteros','1994-09-07',31,'14006');
-INSERT INTO "Artista" VALUES (32,'Sara Villalba','1983-01-26',43,'35010');
-INSERT INTO "Artista" VALUES (33,'Javier Montalvo','1977-04-02',49,'24003');
-INSERT INTO "Artista" VALUES (34,'Noelia Campos','1996-06-11',30,'22005');
-INSERT INTO "Artista" VALUES (35,'Gabriel Pardo','1981-12-18',44,'01008');
-INSERT INTO "Artista" VALUES (36,'Rocío Benítez','1990-02-09',36,'18014');
-INSERT INTO "Artista" VALUES (37,'Tomás Aguilera','1985-07-23',41,'26007');
-INSERT INTO "Artista" VALUES (38,'Ariadna Fuentes','1998-10-05',27,'32004');
-INSERT INTO "Artista" VALUES (39,'Samuel Requena','1976-03-29',50,'52001');
+INSERT INTO "Artista" VALUES (4,'Artista Anónimo 4','1970-01-01',56,'28001','Madrid');
+INSERT INTO "Artista" VALUES (5,'Carmen Sainz','1870',40,'27989','Barcelona');
+INSERT INTO "Artista" VALUES (15,'Aurora Vega','1985-03-12',41,'28012','Valencia');
+INSERT INTO "Artista" VALUES (16,'Marco Llorens','1978-11-02',47,'08003','Madrid');
+INSERT INTO "Artista" VALUES (17,'Selene Duarte','1990-07-25',35,'41001','Barcelona');
+INSERT INTO "Artista" VALUES (18,'Dante Ferrer','1982-01-18',44,'46002','Málaga');
+INSERT INTO "Artista" VALUES (19,'Iris Calderón','1995-09-30',30,'29015','Madrid');
+INSERT INTO "Artista" VALUES (20,'Luna Serrano','1988-04-10',38,'28005','Barcelona');
+INSERT INTO "Artista" VALUES (21,'Héctor Marín','1975-09-14',50,'08012','Alicante');
+INSERT INTO "Artista" VALUES (22,'Valeria Montes','1992-12-01',33,'41003','Valencia');
+INSERT INTO "Artista" VALUES (23,'Nicolás Prado','1980-06-22',45,'46021','Murcia');
+INSERT INTO "Artista" VALUES (24,'Elena Rivas','1997-02-17',29,'29002','Murcia');
+INSERT INTO "Artista" VALUES (25,'Bruno Castaño','1984-08-09',41,'50001','Barcelona');
+INSERT INTO "Artista" VALUES (26,'Clara Belmonte','1991-11-30',34,'03004','Madrid');
+INSERT INTO "Artista" VALUES (27,'Adrián Soler','1986-03-05',40,'15003','Alicante');
+INSERT INTO "Artista" VALUES (28,'Marta Ledesma','1993-07-19',32,'20011','Valladolidad');
+INSERT INTO "Artista" VALUES (29,'Iván Correa','1979-10-28',46,'33002','Málaga');
+INSERT INTO "Artista" VALUES (30,'Paula Santamaría','1987-05-13',39,'07004','Sevilla');
+INSERT INTO "Artista" VALUES (31,'Diego Armenteros','1994-09-07',31,'14006','Bilbao');
+INSERT INTO "Artista" VALUES (32,'Sara Villalba','1983-01-26',43,'35010','Bilbao');
+INSERT INTO "Artista" VALUES (33,'Javier Montalvo','1977-04-02',49,'24003','Zaragoza');
+INSERT INTO "Artista" VALUES (34,'Noelia Campos','1996-06-11',30,'22005','Sevilla');
+INSERT INTO "Artista" VALUES (35,'Gabriel Pardo','1981-12-18',44,'01008','Madrid');
+INSERT INTO "Artista" VALUES (36,'Rocío Benítez','1990-02-09',36,'18014','Zaragoza');
+INSERT INTO "Artista" VALUES (37,'Tomás Aguilera','1985-07-23',41,'26007','Valladolidad');
+INSERT INTO "Artista" VALUES (38,'Ariadna Fuentes','1998-10-05',27,'32004','Sevilla');
+INSERT INTO "Artista" VALUES (39,'Samuel Requena','1976-03-29',50,'52001','Alicante');
 #Tabla Ariista_Estilo:
 INSERT INTO "Artista_Estilo" VALUES (15,4);
 INSERT INTO "Artista_Estilo" VALUES (15,5);
@@ -271,11 +272,11 @@ INSERT INTO "Obra_Tema" VALUES (11,4);
 INSERT INTO "Obra_Tema" VALUES (12,12);
 INSERT INTO "Obra_Tema" VALUES (13,17);
 INSERT INTO "Obra_Tema" VALUES (14,8);
-INSERT INTO "Obra_Tema" VALUES (15,11);
+INSERT INTO "Obra_Tema" VALUES (15,9);
 INSERT INTO "Obra_Tema" VALUES (16,6);
 INSERT INTO "Obra_Tema" VALUES (17,13);
 INSERT INTO "Obra_Tema" VALUES (18,15);
-INSERT INTO "Obra_Tema" VALUES (19,20);
+INSERT INTO "Obra_Tema" VALUES (19,9);
 INSERT INTO "Obra_Tema" VALUES (20,16);
 #Tabla Tema:
 INSERT INTO "Tema" VALUES (1,'Naturaleza','Obras inspiradas en paisajes, plantas y elementos naturales');
