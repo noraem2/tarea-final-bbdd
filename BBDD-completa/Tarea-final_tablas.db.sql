@@ -1,10 +1,11 @@
+PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Artista" (
 	"id_artista"	INTEGER NOT NULL,
 	"nombre_artista"	TEXT NOT NULL UNIQUE,
 	"fecha_nacimiento"	TEXT,
 	"edad"	INTEGER,
-	"código_postal"	TEXT,
+	"codigo_postal"	TEXT,
 	"localidad"	TEXT,
 	PRIMARY KEY("id_artista" AUTOINCREMENT)
 );
@@ -21,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "Cliente" (
 	"localidad"	TEXT,
 	"calle"	TEXT,
 	"numero"	INTEGER,
-	"código_postal"	TEXT,
+	"codigo_postal"	TEXT,
 	PRIMARY KEY("dni")
 );
 CREATE TABLE IF NOT EXISTS "Cliente_Tema" (
@@ -115,6 +116,73 @@ INSERT INTO "Artista" VALUES (36,'Rocío Benítez','1990-02-09',36,'18014','Zara
 INSERT INTO "Artista" VALUES (37,'Tomás Aguilera','1985-07-23',41,'26007','Valladolidad');
 INSERT INTO "Artista" VALUES (38,'Ariadna Fuentes','1998-10-05',27,'32004','Sevilla');
 INSERT INTO "Artista" VALUES (39,'Samuel Requena','1976-03-29',50,'52001','Alicante');
+-- Tabla Estilo:
+INSERT INTO "Estilo" VALUES (4,'pintura');
+INSERT INTO "Estilo" VALUES (5,'escultura');
+INSERT INTO "Estilo" VALUES (6,'fotografia');
+-- Tabla Tema:
+INSERT INTO "Tema" VALUES (1,'Naturaleza','Obras inspiradas en paisajes, plantas y elementos naturales');
+INSERT INTO "Tema" VALUES (2,'Retrato','Representación de personas, rostros y expresiones');
+INSERT INTO "Tema" VALUES (3,'Abstracto','Formas no figurativas y composiciones libres');
+INSERT INTO "Tema" VALUES (4,'Urbano','Escenas de ciudad, calles y vida moderna');
+INSERT INTO "Tema" VALUES (5,'Animales','Representación de fauna salvaje o doméstica');
+INSERT INTO "Tema" VALUES (6,'Mitología','Temas basados en dioses, leyendas y relatos antiguos');
+INSERT INTO "Tema" VALUES (7,'Fantasía','Elementos imaginarios, mágicos o irreales');
+INSERT INTO "Tema" VALUES (8,'Realismo','Representación fiel y detallada de la realidad');
+INSERT INTO "Tema" VALUES (9,'Surrealismo','Imágenes oníricas y combinaciones imposibles');
+INSERT INTO "Tema" VALUES (10,'Minimalismo','Composiciones simples y limpias');
+INSERT INTO "Tema" VALUES (11,'Tecnología','Obras relacionadas con avances tecnológicos');
+INSERT INTO "Tema" VALUES (12,'Historia','Eventos históricos y personajes del pasado');
+INSERT INTO "Tema" VALUES (13,'Cultura pop','Referencias a música, cine, moda y tendencias');
+INSERT INTO "Tema" VALUES (14,'Ciencia ficción','Temas futuristas, naves, robots y universos alternos');
+INSERT INTO "Tema" VALUES (15,'Romanticismo','Emociones intensas, paisajes dramáticos y simbolismo');
+INSERT INTO "Tema" VALUES (16,'Expresionismo','Interpretación subjetiva y emocional de la realidad');
+INSERT INTO "Tema" VALUES (17,'Geometría','Formas geométricas, patrones y estructuras');
+INSERT INTO "Tema" VALUES (18,'Marina','Escenas del mar, barcos y océanos');
+INSERT INTO "Tema" VALUES (19,'Arquitectura','Edificios, estructuras y diseño urbano');
+INSERT INTO "Tema" VALUES (20,'Infantil','Temas dirigidos a niños, colores vivos y formas simples');
+-- Tabla Cliente:
+INSERT INTO "Cliente" VALUES ('11111111A','Nuria Salas','Madrid','Calle Prado',10,'28014');
+INSERT INTO "Cliente" VALUES ('22222222B','Jorge Medina','Barcelona','Calle Aragón',55,'08009');
+INSERT INTO "Cliente" VALUES ('33333333C','Raquel Torres','Sevilla','Calle Feria',8,'41003');
+INSERT INTO "Cliente" VALUES ('44444444D','Hugo Navarro','Valencia','Calle Ruzafa',21,'46004');
+INSERT INTO "Cliente" VALUES ('55555555E','Claudia Ramos','Bilbao','Calle Autonomía',3,'48010');
+INSERT INTO "Cliente" VALUES ('66666666F','Pablo Serrano','Zaragoza','Calle Alfonso',14,'50003');
+INSERT INTO "Cliente" VALUES ('77777777G','Irene Márquez','Málaga','Calle Larios',7,'29005');
+INSERT INTO "Cliente" VALUES ('88888888H','Víctor Pino','Murcia','Calle Trapería',19,'30001');
+INSERT INTO "Cliente" VALUES ('99999999I','Elisa Duarte','Alicante','Calle San Vicente',5,'03004');
+INSERT INTO "Cliente" VALUES ('12121212J','Mario Lozano','Valladolid','Calle Santiago',9,'47001');
+INSERT INTO "Cliente" VALUES ('23232323K','Patricia Vela','Madrid','Calle Arenal',18,'28013');
+INSERT INTO "Cliente" VALUES ('34343434L','Diego Castaño','Sevilla','Calle Sierpes',20,'41004');
+INSERT INTO "Cliente" VALUES ('45454545M','Lucía Benítez','Valencia','Calle Colón',33,'46004');
+INSERT INTO "Cliente" VALUES ('56565656N','Óscar Rivas','Bilbao','Calle Hurtado',2,'48011');
+INSERT INTO "Cliente" VALUES ('67676767O','Nerea Soler','Zaragoza','Calle Don Jaime',11,'50001');
+INSERT INTO "Cliente" VALUES ('78787878P','Iván Llorente','Málaga','Calle Granada',4,'29015');
+INSERT INTO "Cliente" VALUES ('89898989Q','Clara Montoro','Murcia','Calle Jabonerías',16,'30004');
+INSERT INTO "Cliente" VALUES ('90909090R','Tomás Requena','Alicante','Calle Mayor',12,'03002');
+INSERT INTO "Cliente" VALUES ('31313131S','Alicia Pardo','Valladolid','Calle López Gómez',6,'47002');
+INSERT INTO "Cliente" VALUES ('41414141T','Samuel Aguilar','Madrid','Calle Toledo',25,'28005');
+-- Tabla Obra:
+INSERT INTO "Obra" VALUES (1,'Caminos de Luz',2011,1200.0,1);
+INSERT INTO "Obra" VALUES (2,'Sombras del Tiempo',2014,1800.0,2);
+INSERT INTO "Obra" VALUES (3,'Ecos del Horizonte',2019,950.0,3);
+INSERT INTO "Obra" VALUES (4,'Retrato en Silencio',1890,2100.0,4);
+INSERT INTO "Obra" VALUES (5,'Azul Profundo',1910,3000.0,5);
+INSERT INTO "Obra" VALUES (6,'Raíces Ocultas',2012,1300.0,6);
+INSERT INTO "Obra" VALUES (7,'Senderos',2017,1700.0,7);
+INSERT INTO "Obra" VALUES (8,'Dualidad Interior',1890,2500.0,8);
+INSERT INTO "Obra" VALUES (9,'Sueños Fragmentados',2016,900.0,9);
+INSERT INTO "Obra" VALUES (10,'Catedral de Sombras',1999,2200.0,10);
+INSERT INTO "Obra" VALUES (11,'Fragmentos del Alma',1960,3100.0,11);
+INSERT INTO "Obra" VALUES (12,'Mirada Perdida',2013,1400.0,12);
+INSERT INTO "Obra" VALUES (13,'Círculos Eternos',1880,1600.0,13);
+INSERT INTO "Obra" VALUES (14,'Amanecer Carmesí',2022,3500.0,14);
+INSERT INTO "Obra" VALUES (15,'Vértigo Azul',2010,1100.0,15);
+INSERT INTO "Obra" VALUES (16,'Silencio Roto',2015,1900.0,16);
+INSERT INTO "Obra" VALUES (17,'Movimiento Infinito',2017,2600.0,17);
+INSERT INTO "Obra" VALUES (18,'Reflejos del Pasado',2019,2800.0,18);
+INSERT INTO "Obra" VALUES (19,'Destino Trazado',2020,3200.0,19);
+INSERT INTO "Obra" VALUES (20,'Nostalgia de Otoño',2012,1500.0,20);
 -- Tabla Artista_Estilo:
 INSERT INTO "Artista_Estilo" VALUES (15,4);
 INSERT INTO "Artista_Estilo" VALUES (15,5);
@@ -141,27 +209,6 @@ INSERT INTO "Artista_Estilo" VALUES (31,6);
 INSERT INTO "Artista_Estilo" VALUES (32,6);
 INSERT INTO "Artista_Estilo" VALUES (33,6);
 INSERT INTO "Artista_Estilo" VALUES (34,6);
--- Tabla Cliente:
-INSERT INTO "Cliente" VALUES ('11111111A','Nuria Salas','Madrid','Calle Prado',10,'28014');
-INSERT INTO "Cliente" VALUES ('22222222B','Jorge Medina','Barcelona','Calle Aragón',55,'08009');
-INSERT INTO "Cliente" VALUES ('33333333C','Raquel Torres','Sevilla','Calle Feria',8,'41003');
-INSERT INTO "Cliente" VALUES ('44444444D','Hugo Navarro','Valencia','Calle Ruzafa',21,'46004');
-INSERT INTO "Cliente" VALUES ('55555555E','Claudia Ramos','Bilbao','Calle Autonomía',3,'48010');
-INSERT INTO "Cliente" VALUES ('66666666F','Pablo Serrano','Zaragoza','Calle Alfonso',14,'50003');
-INSERT INTO "Cliente" VALUES ('77777777G','Irene Márquez','Málaga','Calle Larios',7,'29005');
-INSERT INTO "Cliente" VALUES ('88888888H','Víctor Pino','Murcia','Calle Trapería',19,'30001');
-INSERT INTO "Cliente" VALUES ('99999999I','Elisa Duarte','Alicante','Calle San Vicente',5,'03004');
-INSERT INTO "Cliente" VALUES ('12121212J','Mario Lozano','Valladolid','Calle Santiago',9,'47001');
-INSERT INTO "Cliente" VALUES ('23232323K','Patricia Vela','Madrid','Calle Arenal',18,'28013');
-INSERT INTO "Cliente" VALUES ('34343434L','Diego Castaño','Sevilla','Calle Sierpes',20,'41004');
-INSERT INTO "Cliente" VALUES ('45454545M','Lucía Benítez','Valencia','Calle Colón',33,'46004');
-INSERT INTO "Cliente" VALUES ('56565656N','Óscar Rivas','Bilbao','Calle Hurtado',2,'48011');
-INSERT INTO "Cliente" VALUES ('67676767O','Nerea Soler','Zaragoza','Calle Don Jaime',11,'50001');
-INSERT INTO "Cliente" VALUES ('78787878P','Iván Llorente','Málaga','Calle Granada',4,'29015');
-INSERT INTO "Cliente" VALUES ('89898989Q','Clara Montoro','Murcia','Calle Jabonerías',16,'30004');
-INSERT INTO "Cliente" VALUES ('90909090R','Tomás Requena','Alicante','Calle Mayor',12,'03002');
-INSERT INTO "Cliente" VALUES ('31313131S','Alicia Pardo','Valladolid','Calle López Gómez',6,'47002');
-INSERT INTO "Cliente" VALUES ('41414141T','Samuel Aguilar','Madrid','Calle Toledo',25,'28005');
 -- Tabla Cliente_Tema:
 INSERT INTO "Cliente_Tema" VALUES ('11111111A',4);
 INSERT INTO "Cliente_Tema" VALUES ('22222222B',7);
@@ -225,31 +272,6 @@ INSERT INTO "Compra" VALUES (17,'89898989Q',17,'2024-06-09',2600.0);
 INSERT INTO "Compra" VALUES (18,'90909090R',18,'2024-06-17',2800.0);
 INSERT INTO "Compra" VALUES (19,'31313131S',19,'2024-06-25',3200.0);
 INSERT INTO "Compra" VALUES (20,'41414141T',20,'2024-07-02',1500.0);
--- Tabla Estilo:
-INSERT INTO "Estilo" VALUES (4,'pintura');
-INSERT INTO "Estilo" VALUES (5,'escultura');
-INSERT INTO "Estilo" VALUES (6,'fotografia');
--- Tabla Obra:
-INSERT INTO "Obra" VALUES (1,'Caminos de Luz',2011,1200.0,1);
-INSERT INTO "Obra" VALUES (2,'Sombras del Tiempo',2014,1800.0,2);
-INSERT INTO "Obra" VALUES (3,'Ecos del Horizonte',2019,950.0,3);
-INSERT INTO "Obra" VALUES (4,'Retrato en Silencio',1890,2100.0,4);
-INSERT INTO "Obra" VALUES (5,'Azul Profundo',1910,3000.0,5);
-INSERT INTO "Obra" VALUES (6,'Raíces Ocultas',2012,1300.0,6);
-INSERT INTO "Obra" VALUES (7,'Senderos',2017,1700.0,7);
-INSERT INTO "Obra" VALUES (8,'Dualidad Interior',1890,2500.0,8);
-INSERT INTO "Obra" VALUES (9,'Sueños Fragmentados',2016,900.0,9);
-INSERT INTO "Obra" VALUES (10,'Catedral de Sombras',1999,2200.0,10);
-INSERT INTO "Obra" VALUES (11,'Fragmentos del Alma',1960,3100.0,11);
-INSERT INTO "Obra" VALUES (12,'Mirada Perdida',2013,1400.0,12);
-INSERT INTO "Obra" VALUES (13,'Círculos Eternos',1880,1600.0,13);
-INSERT INTO "Obra" VALUES (14,'Amanecer Carmesí',2022,3500.0,14);
-INSERT INTO "Obra" VALUES (15,'Vértigo Azul',2010,1100.0,15);
-INSERT INTO "Obra" VALUES (16,'Silencio Roto',2015,1900.0,16);
-INSERT INTO "Obra" VALUES (17,'Movimiento Infinito',2017,2600.0,17);
-INSERT INTO "Obra" VALUES (18,'Reflejos del Pasado',2019,2800.0,18);
-INSERT INTO "Obra" VALUES (19,'Destino Trazado',2020,3200.0,19);
-INSERT INTO "Obra" VALUES (20,'Nostalgia de Otoño',2012,1500.0,20);
 -- Tabla Obra_Tema:
 INSERT INTO "Obra_Tema" VALUES (1,3);
 INSERT INTO "Obra_Tema" VALUES (2,7);
@@ -271,25 +293,4 @@ INSERT INTO "Obra_Tema" VALUES (17,13);
 INSERT INTO "Obra_Tema" VALUES (18,15);
 INSERT INTO "Obra_Tema" VALUES (19,9);
 INSERT INTO "Obra_Tema" VALUES (20,16);
--- Tabla Tema:
-INSERT INTO "Tema" VALUES (1,'Naturaleza','Obras inspiradas en paisajes, plantas y elementos naturales');
-INSERT INTO "Tema" VALUES (2,'Retrato','Representación de personas, rostros y expresiones');
-INSERT INTO "Tema" VALUES (3,'Abstracto','Formas no figurativas y composiciones libres');
-INSERT INTO "Tema" VALUES (4,'Urbano','Escenas de ciudad, calles y vida moderna');
-INSERT INTO "Tema" VALUES (5,'Animales','Representación de fauna salvaje o doméstica');
-INSERT INTO "Tema" VALUES (6,'Mitología','Temas basados en dioses, leyendas y relatos antiguos');
-INSERT INTO "Tema" VALUES (7,'Fantasía','Elementos imaginarios, mágicos o irreales');
-INSERT INTO "Tema" VALUES (8,'Realismo','Representación fiel y detallada de la realidad');
-INSERT INTO "Tema" VALUES (9,'Surrealismo','Imágenes oníricas y combinaciones imposibles');
-INSERT INTO "Tema" VALUES (10,'Minimalismo','Composiciones simples y limpias');
-INSERT INTO "Tema" VALUES (11,'Tecnología','Obras relacionadas con avances tecnológicos');
-INSERT INTO "Tema" VALUES (12,'Historia','Eventos históricos y personajes del pasado');
-INSERT INTO "Tema" VALUES (13,'Cultura pop','Referencias a música, cine, moda y tendencias');
-INSERT INTO "Tema" VALUES (14,'Ciencia ficción','Temas futuristas, naves, robots y universos alternos');
-INSERT INTO "Tema" VALUES (15,'Romanticismo','Emociones intensas, paisajes dramáticos y simbolismo');
-INSERT INTO "Tema" VALUES (16,'Expresionismo','Interpretación subjetiva y emocional de la realidad');
-INSERT INTO "Tema" VALUES (17,'Geometría','Formas geométricas, patrones y estructuras');
-INSERT INTO "Tema" VALUES (18,'Marina','Escenas del mar, barcos y océanos');
-INSERT INTO "Tema" VALUES (19,'Arquitectura','Edificios, estructuras y diseño urbano');
-INSERT INTO "Tema" VALUES (20,'Infantil','Temas dirigidos a niños, colores vivos y formas simples');
 COMMIT;
